@@ -2,54 +2,49 @@ import { useEffect, useState } from "react";
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 import "./App.css";
+import Stats from "./Components/Stats";
+import PackingList from "./Components/PackingList";
+import Form from "./Components/Form";
+import Logo from "./Components/Logo";
 
-const messages = [
-  "Learn React ⚛️",
-  "Apply for jobs 💼",
-  "Invest your new income 🤑",
+const initialItems = [
+  { id: 1, description: "Passports", quantity: 2, packed: false },
+  { id: 2, description: "Socks", quantity: 12, packed: false },
 ];
 
 function App() {
-  const [step, setStep] = useState(1);
-  const [isOpen, setIsOpen] = useState(true);
-  const handleNext = () => {
-    if (step < 3) setStep((step) => step + 1);
+  const [items, setItems] = useState([]);
+  const handleSubmitItem = (item) => {
+    setItems([...items, item]);
   };
-  const handlePrevious = () => {
-    if (step > 1) setStep((step) => step - 1);
+
+  const handleDeleteItem = (id) => {
+    console.log("id", id);
+    setItems((items) => items.filter((item) => item.id !== id));
+  };
+
+  const handleToggleItem = (id) => {
+    setItems((items) =>
+      items.map((item) =>
+        item.id === id ? { ...item, packed: !item.packed } : item
+      )
+    );
+  };
+  const handleClearItem = () => {
+    setItems([]);
   };
   return (
-    <>
-      <button className="close" onClick={() => setIsOpen((is) => !is)}>
-        &times;
-      </button>
-      {isOpen && (
-        <div className="steps">
-          <div className="numbers">
-            <div className={`${step >= 1 ? "active" : ""}`}>1</div>
-            <div className={`${step >= 2 ? "active" : ""}`}>2</div>
-            <div className={`${step >= 3 ? "active" : ""}`}>3</div>
-          </div>
-          <p className="message">
-            Step {step}: Message: {messages[step - 1]}
-          </p>
-          <div className="buttons">
-            <button
-              onClick={handlePrevious}
-              style={{ background: "#7950f2", color: "#fff" }}
-            >
-              Previous
-            </button>
-            <button
-              onClick={handleNext}
-              style={{ background: "#7950f2", color: "#fff" }}
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      )}
-    </>
+    <div className="app">
+      <Logo />
+      <Form onAddItem={handleSubmitItem} />
+      <PackingList
+        items={items}
+        handleDeleteItem={handleDeleteItem}
+        onToggleItem={handleToggleItem}
+        onClearItem={handleClearItem}
+      />
+      <Stats items={items} />
+    </div>
   );
 }
 
