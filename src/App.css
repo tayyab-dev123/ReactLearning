@@ -58,6 +58,24 @@ body {
   position: relative;
 }
 
+/* WebKit browsers (Chrome, Safari) */
+.box::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+.box::-webkit-scrollbar-track {
+  background: var(
+    --color-background-500
+  ); /* Background of the scrollbar track */
+  border-radius: 0.9rem;
+}
+
+.box::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary); /* Color of the scrollbar thumb */
+  border-radius: 0.9rem;
+  border: 3px solid var(--color-background-500); /* Padding around the thumb */
+}
+
 .loader {
   text-align: center;
   text-transform: uppercase;
