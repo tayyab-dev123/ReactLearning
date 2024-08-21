@@ -1,9 +1,12 @@
+import { useCities } from "../contexts/CitiesContext";
 import CountryItem from "./CountryItem";
 import styles from "./CountryList.module.css";
 import Message from "./Message";
 import { Spinner } from "./Spinner";
 
-export const CountryList = ({ isLoading, cities }) => {
+export const CountryList = () => {
+  const { isLoading, cities } = useCities();
+
   if (isLoading) {
     return <Spinner />;
   }
@@ -22,7 +25,7 @@ export const CountryList = ({ isLoading, cities }) => {
     <div className={styles.CountryList}>
       <ul style={{ display: "flex" }}>
         {countries.map((country) => (
-          <CountryItem country={country} key={country} />
+          <CountryItem country={country} key={country.country} />
         ))}
       </ul>
     </div>
