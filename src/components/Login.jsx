@@ -4,7 +4,7 @@ import { PageNav } from "./PageNav";
 import { useAuth } from "../contexts/FakeAuthContext";
 import { useNavigate } from "react-router-dom";
 
-export function Login() {
+export default function Login() {
   // PRE-FILL FOR DEV PURPOSES
   const navigate = useNavigate();
   const [email, setEmail] = useState("jack@example.com");
