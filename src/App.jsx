@@ -1,25 +1,46 @@
-import CreateCustomer from "./features/customers/CreateCustomer";
-import Customer from "./features/customers/Customer";
-import AccountOperations from "./features/accounts/AccountOperations";
-import BalanceDisplay from "./features/accounts/BalanceDisplay";
-import { useSelector } from "react-redux";
+// src/App.jsx
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AppLayout from "./ui/AppLayout";
+import { Home } from "./ui/Home";
+import Error from "./ui/Error";
+import { Menu, Loader as menuLoader } from "./features/menu/Menu";
+import {
+  Action as createOrderAction,
+  CreateOrder,
+} from "./features/order/CreateOrder";
+import { Loader as orderLoader, Order } from "./features/order/Order";
+import { Cart } from "./features/cart/Cart";
+
+const router = createBrowserRouter([
+  {
+    element: <AppLayout />,
+    errorElement: <Error />,
+    children: [
+      { path: "/", element: <Home /> },
+      {
+        path: "/menu",
+        element: <Menu />,
+        loader: menuLoader,
+        errorElement: <Error />,
+      },
+      { path: "/cart", element: <Cart /> },
+      {
+        path: "/order/new",
+        element: <CreateOrder />,
+        action: createOrderAction,
+      },
+      {
+        path: "/order/:orderId",
+        element: <Order />,
+        loader: orderLoader,
+        errorElement: <Error />,
+      },
+    ],
+  },
+]);
 
 function App() {
-  const customer = useSelector((store) => store.customer.fullName);
-  return (
-    <div>
-      <h1>🏦 The React-Redux Bank ⚛️</h1>
-      {customer === "" ? (
-        <CreateCustomer />
-      ) : (
-        <>
-          <Customer />
-          <AccountOperations />
-          <BalanceDisplay />
-        </>
-      )}
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
